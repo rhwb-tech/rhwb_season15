@@ -99,10 +99,29 @@ const ProgramForm: React.FC = () => {
   // Separate handler for Select components
   const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+    // If Activity Type is changed to Masters, auto-set and lock segment and trainingMode
+    if (name === "activityType" && value === "Masters") {
+      setFormData(prev => ({
+        ...prev,
+        activityType: value,
+        segment: "Pro",
+        trainingMode: "Std"
+      }));
+    } else if (name === "activityType") {
+      // If changing away from Masters, clear segment and trainingMode
+      setFormData(prev => ({
+        ...prev,
+        activityType: value,
+        segment: "",
+        trainingMode: ""
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   // Separate handler for TextField components
@@ -350,6 +369,7 @@ const ProgramForm: React.FC = () => {
                   value={formData.segment}
                   label="Segment"
                   onChange={handleSelectChange}
+                  disabled={formData.activityType === "Masters"}
                 >
                   <MenuItem value="Pro">Pro (Coach Assisted)</MenuItem>
                   <MenuItem value="Lite">Lite (Self Assisted)</MenuItem>
@@ -409,7 +429,7 @@ const ProgramForm: React.FC = () => {
                   value={formData.trainingMode}
                   label="Training Intensity"
                   onChange={handleSelectChange}
-                  disabled={!formData.segment}
+                  disabled={formData.activityType === "Masters" || !formData.segment}
                 >
                   {getTrainingModeOptions().map((mode) => (
                     <MenuItem key={mode} value={mode}>
