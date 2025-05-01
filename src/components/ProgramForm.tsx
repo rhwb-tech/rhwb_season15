@@ -13,9 +13,14 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  CardMedia
+  CardMedia,
+  TextField,
+  FormHelperText,
+  Alert,
+  Snackbar
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { supabase } from '../lib/supabaseClient';
 
 interface FormData {
   track: string;
@@ -23,6 +28,8 @@ interface FormData {
   segment: string;
   userType: string;
   trainingMode: string;
+  email: string;
+  coachPreference: string;
 }
 
 // Hardcoded URL mapping based on the Excel file structure
@@ -70,17 +77,44 @@ const ProgramForm: React.FC = () => {
     activityType: '',
     segment: '',
     userType: '',
-    trainingMode: ''
+    trainingMode: '',
+    email: '',
+    coachPreference: ''
   });
 
   const [expanded, setExpanded] = useState<string | false>('program-info');
+
+  // Add state for handling submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // Add state for email validation
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   const handleAccordionChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
+  // Separate handler for Select components
+  const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Separate handler for TextField components
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    
+    if (name === 'email' && !validateEmail(value)) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError(null);
+    }
+    
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -111,18 +145,60 @@ const ProgramForm: React.FC = () => {
     return 0; // For Masters or other cases
   };
 
-  const handleSubmit = () => {
-    // Ensure consistent casing with URL mapping keys
+  // Function to save returning user data to Supabase
+  const saveReturningUserData = async () => {
+    if (formData.userType !== 'return') return;
+
+    try {
+      setIsSubmitting(true);
+      setSubmitError(null);
+
+      const { data, error } = await supabase
+        .from('returning_users')
+        .insert([
+          {
+            email: formData.email,
+            coach_preference: formData.coachPreference,
+            track: formData.track,
+            activity_type: formData.activityType,
+            segment: formData.segment,
+            training_mode: formData.trainingMode
+          }
+        ])
+        .select();
+
+      if (error) throw error;
+
+      setSubmitSuccess(true);
+      console.log('Data saved successfully:', data);
+    } catch (error) {
+      console.error('Error saving data:', error);
+      setSubmitError(error instanceof Error ? error.message : 'An error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    // If it's a returning user, save their data first
+    if (formData.userType === 'return') {
+      await saveReturningUserData();
+    }
+
+    // Continue with the existing URL redirection logic
     const key = `${formData.track}-${formData.segment}-${formData.activityType}-${formData.userType}-${formData.trainingMode}`;
-    console.log('Generated key:', key); // Add logging to debug
     const url = URL_MAPPING[key];
-    console.log('Found URL:', url); // Add logging to debug
     
     if (url) {
       window.open(url, '_blank', 'noopener,noreferrer');
     } else {
-      alert('No matching program URL found for the selected options.');
+      setSubmitError('No matching program URL found for the selected options.');
     }
+  };
+
+  const validateEmail = (email: string): boolean => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   };
 
   return (
@@ -246,7 +322,7 @@ const ProgramForm: React.FC = () => {
                   name="track"
                   value={formData.track}
                   label="Track"
-                  onChange={handleChange}
+                  onChange={handleSelectChange}
                 >
                   <MenuItem value="summer">Summer (Jun-Oct)</MenuItem>
                   <MenuItem value="fall">Fall (Aug-Dec)</MenuItem>
@@ -259,7 +335,7 @@ const ProgramForm: React.FC = () => {
                   name="activityType"
                   value={formData.activityType}
                   label="Activity Type"
-                  onChange={handleChange}
+                  onChange={handleSelectChange}
                 >
                   <MenuItem value="Running">Running</MenuItem>
                   <MenuItem value="Walking">Walking</MenuItem>
@@ -273,7 +349,7 @@ const ProgramForm: React.FC = () => {
                   name="segment"
                   value={formData.segment}
                   label="Segment"
-                  onChange={handleChange}
+                  onChange={handleSelectChange}
                 >
                   <MenuItem value="Pro">Pro (Coach Assisted)</MenuItem>
                   <MenuItem value="Lite">Lite (Self Assisted)</MenuItem>
@@ -286,12 +362,45 @@ const ProgramForm: React.FC = () => {
                   name="userType"
                   value={formData.userType}
                   label="User Type"
-                  onChange={handleChange}
+                  onChange={handleSelectChange}
                 >
                   <MenuItem value="new">New to RHWB</MenuItem>
                   <MenuItem value="return">Participated in one or more seasons in the past</MenuItem>
                 </Select>
               </FormControl>
+
+              {formData.userType === 'return' && (
+                <>
+                  <TextField
+                    fullWidth
+                    name="email"
+                    label="Email used in previous season"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleTextChange}
+                    required
+                    error={!!emailError}
+                    helperText={emailError || "Please enter the email you used in your previous season"}
+                  />
+                  
+                  <FormControl fullWidth>
+                    <InputLabel>Coaching Preference</InputLabel>
+                    <Select
+                      name="coachPreference"
+                      value={formData.coachPreference}
+                      label="Coaching Preference"
+                      onChange={handleSelectChange}
+                      required
+                    >
+                      <MenuItem value="stay">Happy to stay with my current coach</MenuItem>
+                      <MenuItem value="open">Open to trying a new coach</MenuItem>
+                    </Select>
+                    <FormHelperText>
+                      Let us know your coaching preference for this season. While we can't guarantee placements, we'll consider your input.
+                    </FormHelperText>
+                  </FormControl>
+                </>
+              )}
 
               <FormControl fullWidth>
                 <InputLabel>Training Intensity</InputLabel>
@@ -299,7 +408,7 @@ const ProgramForm: React.FC = () => {
                   name="trainingMode"
                   value={formData.trainingMode}
                   label="Training Intensity"
-                  onChange={handleChange}
+                  onChange={handleSelectChange}
                   disabled={!formData.segment}
                 >
                   {getTrainingModeOptions().map((mode) => (
@@ -345,15 +454,44 @@ const ProgramForm: React.FC = () => {
                 variant="contained"
                 size="large"
                 onClick={handleSubmit}
-                disabled={!formData.track || !formData.activityType || !formData.segment || !formData.userType || !formData.trainingMode}
+                disabled={
+                  isSubmitting ||
+                  !formData.track || 
+                  !formData.activityType || 
+                  !formData.segment || 
+                  !formData.userType || 
+                  !formData.trainingMode || 
+                  (formData.userType === 'return' && (!formData.email || !formData.coachPreference))
+                }
                 sx={{ mt: 2 }}
               >
-                Start Registration
+                {isSubmitting ? 'Submitting...' : 'Start Registration'}
               </Button>
             </Box>
           </Paper>
         </AccordionDetails>
       </Accordion>
+
+      {/* Add feedback messages */}
+      <Snackbar 
+        open={submitSuccess} 
+        autoHideDuration={6000} 
+        onClose={() => setSubmitSuccess(false)}
+      >
+        <Alert severity="success" onClose={() => setSubmitSuccess(false)}>
+          Registration data saved successfully!
+        </Alert>
+      </Snackbar>
+
+      <Snackbar 
+        open={!!submitError} 
+        autoHideDuration={6000} 
+        onClose={() => setSubmitError(null)}
+      >
+        <Alert severity="error" onClose={() => setSubmitError(null)}>
+          {submitError}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
