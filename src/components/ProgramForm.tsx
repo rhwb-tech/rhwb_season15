@@ -243,10 +243,11 @@ const ProgramForm: React.FC = () => {
               alt="RHWB Season 14"
               sx={{ borderRadius: 1 }}
             />
-            <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ textAlign: 'center' }}>
               Are you ready to kick off Season 14?!!
             </Typography>
             <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+              <strong>Our Program Offerings</strong><br/>
               RHWB now offers a{' '}
               <a 
                 href="https://www.rhwb.org/training-programs" 
@@ -256,7 +257,13 @@ const ProgramForm: React.FC = () => {
               >
                 variety of programs
               </a>
-              {' '}to suit diverse needs. All programs are available in two tracks. Summer track starting in June with race day in October and Fall Track starting in August and ending in December. Fall Tracks is meant for people living in hotter climates such as India, Texas and Middle East. However, both tracks are open for all. Once signed up you cannot change tracks. Review{' '}
+              {' '}to suit diverse needs of our runners. Please review them before proceeding.
+              <br/>
+              <br/>
+              All programs are available in two tracks. 
+              <li>Summer (June-Oct)</li>
+              <li>Fall (Aug-Dec)</li>
+               Review{' '}
               <a 
                 href="https://www.rhwb.org/season-14-calendar" 
                 target="_blank" 
@@ -299,7 +306,7 @@ const ProgramForm: React.FC = () => {
                 src="https://www.youtube.com/embed/7Cl6v_VQgQI"
                 title="RHWB Orientation Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                allowFullScreen={true}
               />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -307,13 +314,13 @@ const ProgramForm: React.FC = () => {
                 New Runners:
               </Typography>
               <Typography variant="body1">
-                We highly recommend that you watch the below orientation video in its entirety to understand the program requirements and key details to make you successful in the program.
+              It is mandatory that you watch the above orientation program before you jump in. We want you to first understand the program requirements and key details to make your journey with us successful.
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: 'bold', mt: 2 }}>
                 Return Runners:
               </Typography>
               <Typography variant="body1">
-                While it is optional for you, we recommend you take some time to refresh key details and requirements for your continued success with RHWB
+              We recommend you take some time to refresh key details and requirmenets for your continued success at RHWB.
               </Typography>
             </Box>
           </Box>
@@ -384,8 +391,8 @@ const ProgramForm: React.FC = () => {
                   label="User Type"
                   onChange={handleSelectChange}
                 >
-                  <MenuItem value="new">New to RHWB</MenuItem>
-                  <MenuItem value="return">Participated in one or more seasons in the past</MenuItem>
+                  <MenuItem value="new">New Runners to RHWB</MenuItem>
+                  <MenuItem value="return">Returning Runners to RHWB</MenuItem>
                 </Select>
               </FormControl>
 
@@ -435,7 +442,7 @@ const ProgramForm: React.FC = () => {
                     <MenuItem key={mode} value={mode}>
                       {mode === 'Std' ? 'Standard (<2 years of running experience)' :
                        mode === 'Exp' ? 'Experienced (>2 years of running experience)' :
-                       'Speed (>4 years of running experience)'}
+                       'High Intensity Speed (>4 years of running experience)'}
                     </MenuItem>
                   ))}
                 </Select>
@@ -466,7 +473,7 @@ const ProgramForm: React.FC = () => {
                 >
                   {formData.activityType === 'Masters' 
                     ? 'Use coupon code BALAFREE in the last step to waive the fees off'
-                    : 'India residents only use coupon code BALADISCOUNT for additional discount'}
+                    : 'India & China residents only use coupon code BALADISCOUNT for additional discount'}
                 </Typography>
               )}
 
