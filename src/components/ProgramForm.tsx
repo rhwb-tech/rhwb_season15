@@ -100,22 +100,28 @@ const ProgramForm: React.FC = () => {
   const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
 
-    // If Activity Type is changed to Masters, auto-set and lock segment and trainingMode
-    if (name === "activityType" && value === "Masters") {
-      setFormData(prev => ({
-        ...prev,
-        activityType: value,
-        segment: "Pro",
-        trainingMode: "Std"
-      }));
-    } else if (name === "activityType") {
-      // If changing away from Masters, clear segment and trainingMode
-      setFormData(prev => ({
-        ...prev,
-        activityType: value,
-        segment: "",
-        trainingMode: ""
-      }));
+    if (name === "activityType") {
+      if (value === "Masters") {
+        setFormData(prev => ({
+          ...prev,
+          activityType: value,
+          segment: "Pro",
+          trainingMode: "Std"
+        }));
+      } else if (value === "Walking") {
+        setFormData(prev => ({
+          ...prev,
+          activityType: value,
+          trainingMode: "Std"
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          activityType: value,
+          segment: "",
+          trainingMode: ""
+        }));
+      }
     } else {
       setFormData(prev => ({
         ...prev,
@@ -123,7 +129,6 @@ const ProgramForm: React.FC = () => {
       }));
     }
   };
-
   // Separate handler for TextField components
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -141,9 +146,8 @@ const ProgramForm: React.FC = () => {
   };
 
   const getTrainingModeOptions = () => {
-    if (formData.segment === 'Pro') {
-      return ['Std', 'Exp', 'Speed'];
-    }
+    if (formData.activityType === 'Walking') return ['Std'];
+    if (formData.segment === 'Pro') return ['Std', 'Exp', 'Speed'];
     return ['Std', 'Exp'];
   };
 
@@ -430,24 +434,28 @@ const ProgramForm: React.FC = () => {
               )}
 
               <FormControl fullWidth>
-                <InputLabel>Training Intensity</InputLabel>
-                <Select
-                  name="trainingMode"
-                  value={formData.trainingMode}
-                  label="Training Intensity"
-                  onChange={handleSelectChange}
-                  disabled={formData.activityType === "Masters" || !formData.segment}
-                >
-                  {getTrainingModeOptions().map((mode) => (
-                    <MenuItem key={mode} value={mode}>
-                      {mode === 'Std' ? 'Standard (<2 years of running experience)' :
-                       mode === 'Exp' ? 'Experienced (>2 years of running experience)' :
-                       'High Intensity Speed (>4 years of running experience)'}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
+  <InputLabel>Training Intensity</InputLabel>
+  <Select
+    name="trainingMode"
+    value={formData.trainingMode}
+    label="Training Intensity"
+    onChange={handleSelectChange}
+    disabled={
+      formData.activityType === "Masters" ||
+      formData.activityType === "Walking" ||
+      !formData.segment
+    }
+  >
+    {getTrainingModeOptions().map((mode) => (
+      <MenuItem key={mode} value={mode}>
+        {mode === 'Std' ? 'Standard (<2 years of running experience)' :
+         mode === 'Exp' ? 'Experienced (>2 years of running experience)' :
+         'High Intensity Speed (>4 years of running experience)'}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+              
               {formData.activityType && formData.segment && formData.userType && (
                 <Typography 
                   variant="body1" 
