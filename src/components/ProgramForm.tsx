@@ -203,22 +203,30 @@ const ProgramForm: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    // If it's a returning user, save their data first
-    if (formData.userType === 'return') {
-      await saveReturningUserData();
-    }
+  let popup: Window | null = null;
 
-    // Continue with the existing URL redirection logic
-    const key = `${formData.track}-${formData.segment}-${formData.activityType}-${formData.userType}-${formData.trainingMode}`;
-    const url = URL_MAPPING[key];
-    
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      setSubmitError('No matching program URL found for the selected options.');
-    }
-  };
+  const key = `${formData.track}-${formData.segment}-${formData.activityType}-${formData.userType}-${formData.trainingMode}`;
+  const url = URL_MAPPING[key];
 
+  if (url) {
+    // Open a blank popup immediately
+    popup = window.open('', '_blank');
+  }
+
+  // Save data if needed
+  if (formData.userType === 'return') {
+    await saveReturningUserData();
+  }
+
+  if (popup && url) {
+    popup.location.href = url;
+  } else if (!popup && url) {
+    // fallback if popup was blocked
+    window.open(url, '_blank');
+  } else {
+    setSubmitError('No matching program URL found for the selected options.');
+  }
+};
   const validateEmail = (email: string): boolean => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
