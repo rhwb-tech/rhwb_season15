@@ -332,7 +332,7 @@ const ProgramForm: React.FC = () => {
                 Return Runners:
               </Typography>
               <Typography variant="body1">
-              We recommend you take some time to refresh key details and requirmenets for your continued success at RHWB.
+              We recommend you take some time to refresh key details and requirements for your continued success at RHWB.
               </Typography>
             </Box>
           </Box>
