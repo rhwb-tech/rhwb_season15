@@ -73,7 +73,7 @@ const URL_MAPPING: Record<string, string> = {
 
 const ProgramForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    track: '',
+    track: 'fall',
     activityType: '',
     segment: '',
     userType: '',
@@ -273,7 +273,7 @@ const ProgramForm: React.FC = () => {
               <br/>
               <br/>
               All programs are available in two tracks. 
-              <li>Summer (June-Oct)</li>
+              <li>Summer (June-Oct) <span style={{ color: 'red' }}>Program closed on June 8th</span></li>
               <li>Fall (Aug-Dec)</li>
                Review{' '}
               <a 
@@ -362,7 +362,6 @@ const ProgramForm: React.FC = () => {
                   label="Track"
                   onChange={handleSelectChange}
                 >
-                  <MenuItem value="summer">Summer (Jun-Oct)</MenuItem>
                   <MenuItem value="fall">Fall (Aug-Dec)</MenuItem>
                 </Select>
               </FormControl>
