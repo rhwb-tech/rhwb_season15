@@ -32,48 +32,30 @@ interface FormData {
   coachPreference: string;
 }
 
-// Hardcoded URL mapping based on the Excel file structure
+// Hardcoded URL mapping (Season 15 - Spring)
 const URL_MAPPING: Record<string, string> = {
-  // Summer Track
-  'summer-Pro-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a01pro-run-new-std',
-  'summer-Pro-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a02pro-run-new-exp',
-  'summer-Pro-Running-new-Speed': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a03pro-run-new-speed',
-  'summer-Pro-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a04pro-run-return-std',
-  'summer-Pro-Running-return-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a05pro-run-return-exp',
-  'summer-Pro-Running-return-Speed': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a06pro-run-return-speed',
-  'summer-Pro-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a07pro-walk-new-std',
-  'summer-Pro-Walking-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a08pro-walk-return-std',
-  'summer-Lite-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a09lite-run-new-std',
-  'summer-Lite-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a10lite-run-new-exp',
-  'summer-Lite-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a11lite-run-return-std',
-  'summer-Lite-Running-return-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a12lite-run-return-exp',
-  'summer-Lite-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a13lite-walk-new-std',
-  'summer-Lite-Walking-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a14lite-walk-return-std',
-  'summer-Pro-Masters-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a15masters-walk-new-std',
-  'summer-Pro-Masters-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s14admissions/a16masters-walk-return-std',
-
-  // Fall Track
-  'fall-Pro-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a01fallpro-run-new-std',
-  'fall-Pro-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a02fallpro-run-new-exp',
-  'fall-Pro-Running-new-Speed': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a03fallpro-run-new-speed',
-  'fall-Pro-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a04fallpro-run-return-std',
-  'fall-Pro-Running-return-Exp': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a05fallpro-run-return-exp',
-  'fall-Pro-Running-return-Speed': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a06fallpro-run-return-speed',
-  'fall-Pro-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a07fallpro-walk-new-std',
-  'fall-Pro-Walking-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a08fallpro-walk-return-std',
-  'fall-Lite-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a09falllite-run-new-std',
-  'fall-Lite-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a10falllite-run-new-exp',
-  'fall-Lite-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a11falllite-run-return-std',
-  'fall-Lite-Running-return-Exp': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a12falllite-run-return-exp',
-  'fall-Lite-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a13falllite-walk-new-std',
-  'fall-Lite-Walking-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a14falllite-walk-return-std',
-  'fall-Pro-Masters-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a15fallmasters-walk-new-std',
-  'fall-Pro-Masters-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/s14-fall/a16fallmasters-walk-return-std',
+  // Spring Track (Dec-Apr)
+  'spring-Coach Guided-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a01coach-guided-run-new-std',
+  'spring-Coach Guided-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a02coach-guided-run-new-exp',
+  'spring-Coach Guided-Running-new-Speed': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a03coach-guided-run-new-speed',
+  'spring-Coach Guided-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a04coach-guided-run-return-std',
+  'spring-Coach Guided-Running-return-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a05coach-guided-run-return-exp',
+  'spring-Coach Guided-Running-return-Speed': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a06coach-guided-run-return-speed',
+  'spring-Coach Guided-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a07coach-guided-walk-new-std',
+  'spring-Coach Guided-Walking-return-Std': 'https://finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a08coach-guided-walk-return-std',
+  'spring-Self Serve-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a09self-serve-run-new-std',
+  'spring-Self Serve-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a10self-serve-run-new-exp',
+  'spring-Self Serve-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a11self-serve-run-return-std',
+  'spring-Self Serve-Running-return-Exp': 'https://finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a12self-serve-run-return-exp',
+  'spring-Self Serve-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a13self-serve-walk-new-std',
+  'spring-Self Serve-Walking-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a14self-serve-walk-return-std',
+  'spring-Coach Guided-Masters-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a15masters-walk-new-std',
+  'spring-Coach Guided-Masters-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a16masters-walk-return-std',
 };
 
 const ProgramForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    track: 'fall',
+    track: 'spring',
     activityType: '',
     segment: '',
     userType: '',
@@ -105,7 +87,7 @@ const ProgramForm: React.FC = () => {
         setFormData(prev => ({
           ...prev,
           activityType: value,
-          segment: "Pro",
+          segment: "Coach Guided",
           trainingMode: "Std"
         }));
       } else if (value === "Walking") {
@@ -147,21 +129,21 @@ const ProgramForm: React.FC = () => {
 
   const getTrainingModeOptions = () => {
     if (formData.activityType === 'Walking') return ['Std'];
-    if (formData.segment === 'Pro') return ['Std', 'Exp', 'Speed'];
+    if (formData.segment === 'Coach Guided') return ['Std', 'Exp', 'Speed'];
     return ['Std', 'Exp'];
   };
 
   const calculateProgramCost = () => {
     if (formData.activityType === 'Running') {
-      if (formData.segment === 'Pro') {
+      if (formData.segment === 'Coach Guided') {
         return formData.userType === 'new' ? 60 : 35;
-      } else { // Lite
+      } else { // Self Serve
         return formData.userType === 'new' ? 35 : 20;
       }
     } else if (formData.activityType === 'Walking') {
-      if (formData.segment === 'Pro') {
+      if (formData.segment === 'Coach Guided') {
         return 30;
-      } else { // Lite
+      } else { // Self Serve
         return 15;
       }
     }
@@ -244,7 +226,7 @@ const ProgramForm: React.FC = () => {
           aria-controls="program-info-content"
           id="program-info-header"
         >
-          <Typography variant="h6">Welcome to Season 14</Typography>
+          <Typography variant="h6">Welcome to Season 15</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -256,7 +238,7 @@ const ProgramForm: React.FC = () => {
               sx={{ borderRadius: 1 }}
             />
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
-              Are you ready to kick off Season 14?!!
+              Are you ready to kick off Season 15?!!
             </Typography>
             <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
               <strong>Our Program Offerings</strong><br/>
@@ -272,12 +254,11 @@ const ProgramForm: React.FC = () => {
               {' '}to suit diverse needs of our runners. Please review them before proceeding.
               <br/>
               <br/>
-              All programs are available in two tracks. 
-              <li>Summer (June-Oct) <span style={{ color: 'red' }}>Program closed on June 8th</span></li>
-              <li>Fall (Aug-Dec)</li>
+              Our program runs in a single track this season:
+              <li>Spring (Dec-Apr)</li>
                Review{' '}
               <a 
-                href="https://www.rhwb.org/season-14-calendar" 
+                href="https://www.rhwb.org/season-15-calendar" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 style={{ color: 'inherit', textDecoration: 'underline' }}
@@ -362,7 +343,7 @@ const ProgramForm: React.FC = () => {
                   label="Track"
                   onChange={handleSelectChange}
                 >
-                  <MenuItem value="fall">Fall (Aug-Dec)</MenuItem>
+                  <MenuItem value="spring">Spring (Dec-Apr)</MenuItem>
                 </Select>
               </FormControl>
 
@@ -389,8 +370,8 @@ const ProgramForm: React.FC = () => {
                   onChange={handleSelectChange}
                   disabled={formData.activityType === "Masters"}
                 >
-                  <MenuItem value="Pro">Pro (Coach Assisted)</MenuItem>
-                  <MenuItem value="Lite">Lite (Self Assisted)</MenuItem>
+                  <MenuItem value="Coach Guided">Coach Guided</MenuItem>
+                  <MenuItem value="Self Serve">Self Serve</MenuItem>
                 </Select>
               </FormControl>
 
