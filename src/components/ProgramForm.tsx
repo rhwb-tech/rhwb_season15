@@ -233,8 +233,8 @@ const ProgramForm: React.FC = () => {
             <CardMedia
               component="img"
               height="300"
-              image="/IMG_2646.JPG"
-              alt="RHWB Season 14"
+              image="/season15coaches.jpeg"
+              alt="RHWB Season 15"
               sx={{ borderRadius: 1 }}
             />
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
