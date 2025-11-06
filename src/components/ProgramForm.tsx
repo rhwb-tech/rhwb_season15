@@ -232,10 +232,17 @@ const ProgramForm: React.FC = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <CardMedia
               component="img"
-              height="300"
               image="/season15coaches.jpeg"
               alt="RHWB Season 15"
-              sx={{ borderRadius: 1 }}
+              sx={{ 
+                borderRadius: 1,
+                width: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+                objectPosition: 'center',
+                display: 'block',
+                maxWidth: '100%'
+              }}
             />
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
               Are you ready to kick off Season 15?!!
