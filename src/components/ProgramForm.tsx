@@ -233,15 +233,18 @@ const ProgramForm: React.FC = () => {
             <CardMedia
               component="img"
               image="/season15coaches.jpeg"
-              alt="RHWB Season 15"
+              alt="RHWB Season 15 Coaches"
               sx={{ 
                 borderRadius: 1,
                 width: '100%',
                 height: 'auto',
+                maxWidth: '100%',
+                maxHeight: { xs: '300px', sm: '400px', md: '500px', lg: '600px' },
                 objectFit: 'contain',
                 objectPosition: 'center',
                 display: 'block',
-                maxWidth: '100%'
+                margin: '0 auto',
+                padding: { xs: '8px', sm: '12px', md: '16px' }
               }}
             />
             <Typography variant="h6" sx={{ textAlign: 'center' }}>
