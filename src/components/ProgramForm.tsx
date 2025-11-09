@@ -152,33 +152,50 @@ const ProgramForm: React.FC = () => {
 
   // Function to save returning user data to Supabase
   const saveReturningUserData = async () => {
-    if (formData.userType !== 'return') return;
+    if (formData.userType !== 'return') {
+      return;
+    }
 
     try {
       setIsSubmitting(true);
       setSubmitError(null);
 
-      const { data, error } = await supabase
+      const insertData = {
+        email: formData.email,
+        coach_preference: formData.coachPreference,
+        track: formData.track,
+        activity_type: formData.activityType,
+        segment: formData.segment,
+        training_mode: formData.trainingMode
+      };
+
+      // Don't use .select() to avoid SELECT operation that might be blocked by RLS
+      const { error } = await supabase
         .from('returning_users')
-        .insert([
-          {
-            email: formData.email,
-            coach_preference: formData.coachPreference,
-            track: formData.track,
-            activity_type: formData.activityType,
-            segment: formData.segment,
-            training_mode: formData.trainingMode
-          }
-        ])
-        .select();
+        .insert([insertData]);
 
-      if (error) throw error;
+      if (error) {
+        // Provide helpful message for RLS errors
+        if (error.code === '42501') {
+          const rlsError = new Error(
+            'Database security policy is blocking this insert. Please contact the administrator to configure Row Level Security policies for the returning_users table.'
+          );
+          throw rlsError;
+        }
+        
+        throw error;
+      }
 
+      // If no error, the insert was successful
       setSubmitSuccess(true);
-      console.log('Data saved successfully:', data);
     } catch (error) {
-      console.error('Error saving data:', error);
-      setSubmitError(error instanceof Error ? error.message : 'An error occurred');
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : typeof error === 'object' && error !== null && 'message' in error
+        ? String(error.message)
+        : 'An error occurred while saving data. Please check the browser console for details.';
+      
+      setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
