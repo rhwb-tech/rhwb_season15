@@ -43,11 +43,8 @@ const URL_MAPPING: Record<string, string> = {
   'spring-Coach Guided-Running-return-Speed': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a06coach-guided-run-return-speed',
   'spring-Coach Guided-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a07coach-guided-walk-new-std',
   'spring-Coach Guided-Walking-return-Std': 'https://finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a08coach-guided-walk-return-std',
-  'spring-Self Serve-Running-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a09self-serve-run-new-std',
-  'spring-Self Serve-Running-new-Exp': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a10self-serve-run-new-exp',
   'spring-Self Serve-Running-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a11self-serve-run-return-std',
   'spring-Self Serve-Running-return-Exp': 'https://finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a12self-serve-run-return-exp',
-  'spring-Self Serve-Walking-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a13self-serve-walk-new-std',
   'spring-Self Serve-Walking-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a14self-serve-walk-return-std',
   'spring-Coach Guided-Masters-new-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a15masters-walk-new-std',
   'spring-Coach Guided-Masters-return-Std': 'https://www.finalsurge.com/coach/rhwb/training/rhwb-s15admissions/a16masters-walk-return-std',
@@ -102,6 +99,20 @@ const ProgramForm: React.FC = () => {
           activityType: value,
           segment: "",
           trainingMode: ""
+        }));
+      }
+    } else if (name === "segment") {
+      // If Self Serve is selected, automatically set userType to return
+      if (value === "Self Serve") {
+        setFormData(prev => ({
+          ...prev,
+          segment: value,
+          userType: "return"
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          segment: value
         }));
       }
     } else {
@@ -409,8 +420,11 @@ const ProgramForm: React.FC = () => {
                   value={formData.userType}
                   label="User Type"
                   onChange={handleSelectChange}
+                  disabled={formData.segment === "Self Serve"}
                 >
-                  <MenuItem value="new">New Runners to RHWB</MenuItem>
+                  {formData.segment !== "Self Serve" && (
+                    <MenuItem value="new">New Runners to RHWB</MenuItem>
+                  )}
                   <MenuItem value="return">Returning Runners to RHWB</MenuItem>
                 </Select>
               </FormControl>
