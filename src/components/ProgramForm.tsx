@@ -395,7 +395,7 @@ const ProgramForm: React.FC = () => {
                 >
                   <MenuItem value="Running">Running</MenuItem>
                   <MenuItem value="Walking">Walking</MenuItem>
-                  <MenuItem value="Masters">Masters</MenuItem>
+                  <MenuItem value="Masters">Masters (65 years or older)</MenuItem>
                 </Select>
               </FormControl>
 
