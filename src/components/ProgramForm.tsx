@@ -213,28 +213,30 @@ const ProgramForm: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-  let popup: Window | null = null;
-
   const key = `${formData.track}-${formData.segment}-${formData.activityType}-${formData.userType}-${formData.trainingMode}`;
   const url = URL_MAPPING[key];
 
-  if (url) {
-    // Open a blank popup immediately
-    popup = window.open('', '_blank');
-  }
-
-  // Save data if needed
-  if (formData.userType === 'return') {
-    await saveReturningUserData();
-  }
-
-  if (popup && url) {
-    popup.location.href = url;
-  } else if (!popup && url) {
-    // fallback if popup was blocked
-    window.open(url, '_blank');
-  } else {
+  if (!url) {
     setSubmitError('No matching program URL found for the selected options.');
+    return;
+  }
+
+  // Open the URL immediately in response to user click to avoid popup blockers
+  // Safari requires popups to be opened synchronously in response to user action
+  const newWindow = window.open(url, '_blank');
+  
+  // If popup was blocked, show error
+  if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+    setSubmitError('Popup was blocked. Please allow popups for this site and try again.');
+    return;
+  }
+
+  // Save data in the background (don't await to avoid blocking)
+  if (formData.userType === 'return') {
+    saveReturningUserData().catch((error) => {
+      // Silently handle errors - don't interrupt user flow
+      // The popup is already open, so we don't want to show an error
+    });
   }
 };
   const validateEmail = (email: string): boolean => {
