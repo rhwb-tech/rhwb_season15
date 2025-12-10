@@ -397,8 +397,8 @@ const ProgramForm: React.FC = () => {
                   onChange={handleSelectChange}
                   disabled={formData.activityType === "Masters"}
                 >
-                  <MenuItem value="Coach Guided">Coach Guided</MenuItem>
-                  <MenuItem value="Self Serve">Self Serve</MenuItem>
+                  <MenuItem value="Coach Guided">Coach Guided (formerly Pro)</MenuItem>
+                  <MenuItem value="Self Serve">Self Serve (formerly Lite)</MenuItem>
                 </Select>
               </FormControl>
 
